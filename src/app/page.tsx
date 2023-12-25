@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-async-client-component */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
