@@ -10,8 +10,13 @@ import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Head from 'next/head';
 import React, { Fragment, useState } from 'react';
+import DateTimePicker from 'react-datetime-picker';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 import { supabase } from '@/lib/supabase';
 
@@ -82,7 +87,8 @@ const FormSchema = Yup.object().shape({
   numberOfGuests: Yup.number()
     .min(1, 'At least one guest required')
     .required('Number of guests is required'),
-  remarks: Yup.string().required('Remarks are required')
+  remarks: Yup.string().required('Remarks are required'),
+  date: Yup.date()
 });
 
 export default function HomePage() {
@@ -202,7 +208,8 @@ export default function HomePage() {
                       name: '',
                       email: '',
                       numberOfGuests: '',
-                      remarks: ''
+                      remarks: '',
+                      date: undefined
                     }}
                     Schema={FormSchema}
                     onSubmit={async (values) => {
@@ -216,7 +223,7 @@ export default function HomePage() {
                       closeModal();
                     }}
                   >
-                    {({ isSubmitting, errors, touched }) => (
+                    {({ isSubmitting, errors, touched, setValues, values }) => (
                       <Form className='mt-2 grid grid-cols-3 gap-2'>
                         {/* Name Field */}
                         <div>
@@ -260,14 +267,29 @@ export default function HomePage() {
                             className='text-sm text-red-500'
                           />
                         </div>
-
+                        <div className='py-2'>
+                          <p>Pick Date And Time</p>
+                          <DateTimePicker
+                            onChange={(value) => {
+                              setValues({
+                                date: value
+                              });
+                            }}
+                            value={values.date}
+                          />
+                          <ErrorMessage
+                            name='date'
+                            component='div'
+                            className='text-sm text-red-500'
+                          />
+                        </div>
                         {/* Remarks Field */}
                         <div className='col-span-3'>
                           <Field
                             name='remarks'
                             as='textarea'
                             placeholder='Enter your remarks'
-                            className='w-full rounded p-2'
+                            className='h-[200px] w-full rounded p-2'
                           />
                           <ErrorMessage
                             name='remarks'
