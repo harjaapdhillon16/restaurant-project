@@ -202,7 +202,6 @@ export default function HomePage() {
                       numberOfGuests: '',
                       remarks: ''
                     }}
-                    validationasync
                     Schema={FormSchema}
                     onSubmit={async (values) => {
                       await supabase.from('bookings').insert(values);
